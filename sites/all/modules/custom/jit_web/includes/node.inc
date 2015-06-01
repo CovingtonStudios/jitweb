@@ -100,9 +100,7 @@ function jit_web_node_info() {
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
-      'addtional_settings' => array(
-        
-      ),
+
     ),
   );
   drupal_alter('node_info', $items);
@@ -118,8 +116,7 @@ function jit_web_node_type_insert($content_type) {
 
     jit_web_update_nodetype_variables($content_type);
 
-
-    $body_instance = node_add_body_field($content_type, t('Example Description'));
+    $body_instance = node_add_body_field($content_type, t('body'));
 
     // Add our example_node_list view mode to the body instance
     // display by instructing the body to display as a summary.
@@ -146,3 +143,7 @@ function jit_web_node_type_insert($content_type) {
     }
   }
 }
+
+function jit_web_form($node, $form_state) {
+    return node_content_form($node, $form_state);
+  }
