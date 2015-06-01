@@ -1,0 +1,12 @@
+name = Views Bootstrap Panel
+package = Views
+description = Bootstrap Panel Component addition for Views
+
+dependencies[] = views
+
+files[] = plugins/panel/views_bootstrap_panel_plugin_style.inc
+
+version = "7.x-3.1"
+core = "7.x"
+
+
