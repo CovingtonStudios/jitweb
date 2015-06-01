@@ -1,0 +1,60 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 27, 2015, 10:53:16 AM
+    Author     : TECH
+*/
+@media (min-width: 768px) {
+  .carousel-inner .active.left {
+    left: 250px; } }
+@media (min-width: 992px) {
+  .carousel-inner .active.left {
+    left: 161px; } }
+@media (min-width: 1200px) {
+  .carousel-inner .active.left {
+    left: 194px; } }
+
+@media (min-width: 768px) {
+  .carousel-inner .next {
+    left: -250px; } }
+@media (min-width: 992px) {
+  .carousel-inner .next {
+    left: -161px; } }
+@media (min-width: 1200px) {
+  .carousel-inner .next {
+    left: -194px; } }
+
+@media (min-width: 768px) {
+  .carousel-inner .active.right {
+    left: -250px; } }
+@media (min-width: 992px) {
+  .carousel-inner .active.right {
+    left: -161px; } }
+@media (min-width: 1200px) {
+  .carousel-inner .active.right {
+    left: -194px; } }
+
+@media (min-width: 768px) {
+  .carousel-inner .prev {
+    left: 250px; } }
+@media (min-width: 992px) {
+  .carousel-inner .prev {
+    left: 161px; } }
+@media (min-width: 1200px) {
+  .carousel-inner .prev {
+    left: 194px; } }
+
+.carousel-inner .well {
+  margin-bottom: 0px; }
+
+.views-bootstrap-multicarousel-plugin-style .carousel-indicators {
+  bottom: -10px; }
+  .views-bootstrap-multicarousel-plugin-style .carousel-indicators li {
+    border: 1px solid #428bca; }
+  .views-bootstrap-multicarousel-plugin-style .carousel-indicators .active {
+    background-color: #428bca; }
+
+/*# sourceMappingURL=views-bootstrap-multicarousel.css.map */

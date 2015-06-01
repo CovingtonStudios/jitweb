@@ -1,0 +1,77 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 27, 2015, 10:53:16 AM
+    Author     : TECH
+*/
+
+.carousel-inner .active.left { 
+    
+    
+  @media (min-width: 768px) {
+    left: 250px;
+  }
+  @media (min-width: 992px) {
+    left: 161px;
+  }
+  @media (min-width: 1200px) {
+    left: 194px;
+  }
+}
+.carousel-inner .next        { 
+@media (min-width: 768px) {
+    left: -250px;
+  }
+  @media (min-width: 992px) {
+    left: -161px;
+  }
+  @media (min-width: 1200px) {
+    left: -194px;
+  }
+}
+
+.carousel-inner .active.right { 
+@media (min-width: 768px) {
+    left: -250px;
+  }
+  @media (min-width: 992px) {
+    left: -161px;
+  }
+  @media (min-width: 1200px) {
+    left: -194px;
+  }
+}
+.carousel-inner .prev        { 
+    
+  @media (min-width: 768px) {
+    left: 250px;
+  }
+  @media (min-width: 992px) {
+    left: 161px;
+  }
+  @media (min-width: 1200px) {
+    left: 194px;
+  } }
+
+.carousel-inner .well{
+    margin-bottom: 0px;
+}
+
+.views-bootstrap-multicarousel-plugin-style {
+    .carousel-indicators{
+        
+            bottom:-10px;
+        
+        
+        li {
+            border: 1px solid #428bca;
+        }
+        
+        .active{
+            background-color: #428bca;
+        }
+    }
+}

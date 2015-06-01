@@ -1,0 +1,139 @@
+<?php
+/**
+ * @file
+ * Bootstrap integration.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function views_bootstrap_multicarousel_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
+ * Split items by rows and columns.
+ * - Stolen from Drupal 8 template_preprocess_views_view_grid().
+ *
+ * @param $vars
+ * @param $columns
+ * @param bool $horizontal
+ *
+ * @return array
+ *
+ * @TODO: Use array_chunk().
+ */
+function _views_bootstrap_multicarousel_split_rows($vars, $columns, $horizontal = TRUE) {
+  $col = 0;
+  $row = 0;
+  $items = array();
+  $remainders = count($vars['rows']) % $columns;
+  $num_rows = floor(count($vars['rows']) / $columns);
+
+  // Iterate over each rendered views result row.
+  foreach ($vars['rows'] as $item) {
+
+    // Add the item.
+    if ($horizontal) {
+      $items[$row]['content'][$col]['content'] = $item;
+    }
+    else {
+      $items[$col]['content'][$row]['content'] = $item;
+    }
+
+    // Increase, decrease or reset appropriate integers.
+    if ($horizontal) {
+      if ($col == 0 && $col != ($columns - 1)) {
+        $col++;
+      }
+      elseif ($col >= ($columns - 1)) {
+        $col = 0;
+        $row++;
+      }
+      else {
+        $col++;
+      }
+    }
+    else {
+      $row++;
+      if (!$remainders && $row == $num_rows) {
+        $row = 0;
+        $col++;
+      }
+      elseif ($remainders && $row == $num_rows + 1) {
+        $row = 0;
+        $col++;
+        $remainders--;
+      }
+    }
+  }
+
+  return $items;
+}
+
+/*
+ * implements hook_views_post_execute
+ *
+ * We are doing this because there is no direct way to add the "center-block" class to the img fields.
+ * because of this we need to first alter the "alt" field to include a tag "views_bootstrap_multicarousel"
+ * and then use the tag to know which images on the page came from the view in the hook_preprocess_image
+ * function
+ */
+function views_bootstrap_multicarousel_views_post_execute(&$view){
+
+    /*
+     * this is no longer used as repeating products when there are less than 3 characters is not optimal.
+
+    $result_count = count($view->result);
+
+    /*Since 6 is the maximum number of slides we could show on a page, we need to make sure that
+     *if there are less than 6 results, that we duplicate from the beginning
+
+
+    if ($result_count < 6){
+        $row_index = 0;
+        for($i=$result_count; $i<6; $i++){
+
+            $view->result[$result_count] = $view->result[$row_index];
+
+            if($row_index == $result_count){
+                $row_index = 0;
+            }else{
+                $row_index++;
+            }
+
+        }
+
+    }
+     *
+     */
+    if($view->style_plugin->plugin_name === "views_bootstrap_multicarousel_plugin_style"){
+        $image_field_name = 'field_'.$view->style_plugin->row_plugin->options['image'];
+
+        foreach ($view->result as $resultkey => $resultvalue) {
+            foreach ($resultvalue as $fieldkey => $field) {
+
+                    if ($fieldkey === $image_field_name){
+
+                        foreach ($view->result[$resultkey]->$image_field_name as $key => &$value) {
+                            $value['rendered']['#item']['alt'] = 'views_bootstrap_multicarousel_'.$value['rendered']['#item']['alt'];
+                        }
+
+                    }
+            }
+        }
+    }
+}
+
+/*
+ * implements hook_preprocess_image
+ */
+
+function views_bootstrap_multicarousel_preprocess_image(&$variables) {
+    $tag_position = strpos($variables['alt'],'views_bootstrap_multicarousel_');
+
+    if ($tag_position !== FALSE){
+        $variables['attributes']['class'][] = 'center-block';
+        $variables['alt'] = substr($variables['alt'],30 );
+    }
+}
