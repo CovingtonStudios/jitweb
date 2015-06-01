@@ -1,0 +1,51 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ *
+ *
+ */
+class JITField {
+
+    /** @var string */
+    var $name;
+    /** @var JITFieldSchema */
+    var $schema;
+    /** @var JITFieldInstance */
+    var $instance;
+
+
+
+
+
+    /*
+     * methods
+     */
+    function __construct($name, $schema_type, $widget_type){
+        $this->name = $name;
+
+        $this->schema = new JITFieldSchema($name, $schema_type);
+        $this->instance = new JITFieldInstance($name, $schema_type, $widget_type);
+
+
+    }
+
+    function get_schema_array(){
+        return $this->schema->to_array();
+    }
+
+    function get_instance_array(){
+        return $this->instance->to_array();
+    }
+
+
+
+
+
+}

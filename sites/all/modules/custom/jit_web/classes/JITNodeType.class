@@ -1,0 +1,130 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of node_type
+ *
+ * @author TECH
+ */
+class JITNodeType {
+
+
+        /** @var string Definition: var $type;*/
+    var $type;
+        /** @var string Definition:     var $name;*/
+    var $name;
+	/** @var string Definition:     var $base;*/
+    var $base;
+	/** @var string Definition:     var $description;*/
+    var $description;
+	/** @var integer Definition:     var $has_title = '1';*/
+    var $has_title = '1';
+	/** @var string Definition:     var $title_label;*/
+    var $title_label;
+	/** @var string Definition:     var $help;*/
+    var $help;
+	/** @var boolean Definition:     var $custom = TRUE;*/
+    var $custom = TRUE;
+	/** @var boolean Definition:     var $modified = FALSE;*/
+    var $modified = FALSE;
+	/** @var boolean Definition:     var $disabled = FALSE;*/
+    var $disabled = FALSE;
+	/** @var boolean Definition:     var $locked = TRUE;*/
+    var $locked = TRUE;
+	/** @var string Definition:     var $module = 'node';*/
+    var $module = 'node';
+	/** @var string Definition:     var $orig_type;*/
+    var $orig_type;
+	/** @var boolean Definition:     var $jit_products = TRUE;*/
+    var $jit_products = TRUE;
+	/** @var string Definition:     var $sections;*/
+    var $sections;
+	/** @var array Definition:     var $fields; //array*/
+    var $fields; //array
+	/** @var array Definition:     var $extra_fields; //array*/
+    var $extra_fields; //array
+
+
+    /** @var string Definition: var $additional_settings__active_tab = 'edit-workflow';*/
+    var $additional_settings__active_tab = 'edit-workflow';
+    /** @var integer Definition: var $comment_anonymous = '0';*/
+    var $comment_anonymous = '0';
+    /** @var integer Definition: var $comment_default_mode = '1';*/
+    var $comment_default_mode = '1';
+    /** @var integer Definition: var $comment_default_per_page = '50';*/
+    var $comment_default_per_page = '50';
+    /** @var integer Definition: var $comment = '0';*/
+    var $comment = '0';
+    /** @var integer Definition: var $comment_form_location = '1';*/
+    var $comment_form_location = '1';
+    /** @var integer Definition: var $comment_preview = '1';*/
+    var $comment_preview = '1';
+    /** @var integer Definition: var $comment_subject_field = '1';*/
+    var $comment_subject_field = '1';
+    /** @var integer Definition: var $menu_options =  array();*/
+    var $menu_options =  array();
+    /** @var string Definition: var $menu_parent =  'main-menu:0';*/
+    var $menu_parent =  'main-menu:0';
+    /** @var array Definition: var $node_options =  array(0,'status');*/
+    var $node_options =  array(0,'status');
+    /** @var integer Definition: var $node_preview =  '1';*/
+    var $node_preview =  '1';
+    /** @var integer Definition: var $node_submitted =  '0';*/
+    var $node_submitted =  '0';
+
+
+
+
+    function __construct($type) {
+
+        $this->type = $type;
+        $this->base = 'node_content';
+        $this->orig_type = $type;
+
+        //make sure sections is an array
+        $this->sections = array();
+        $this->fields = array();
+        $this->extra_fields = array('display' => array(), 'form' =>array());
+
+    }
+
+    function set_section($section_code, $custom_name){
+        $this->sections[$section_code]['section_name']=$custom_name;
+        $this->sections[$section_code]['section_code']=$section_code;
+        $this->sections[$section_code]['node_type']=$this->type;
+
+    }
+
+    function add_extra_field_display($name,$weight,$visible = TRUE,$viewmode = 'default'){
+        $this->extra_fields['display']['product:'.$name][$viewmode]['visible']=$visible;
+        $this->extra_fields['display']['product:'.$name][$viewmode]['weight']=$weight;
+    }
+
+
+    function get_variable_settings_array(){
+        return array(
+            'additional_settings__active_tab' => $this->additional_settings__active_tab,
+            'comment_anonymous' => $this->comment_anonymous,
+            'comment_default_mode' => $this->comment_default_mode,
+            'comment_default_per_page' => $this->comment_default_per_page,
+            'comment' => $this->comment,
+            'comment_form_location' => $this->comment_form_location,
+            'comment_preview' => $this->comment_preview,
+            'comment_subject_field' => $this->comment_subject_field,
+            'menu_options' => $this->menu_options,
+            'menu_parent' => $this->menu_parent,
+            'node_options' => $this->node_options,
+            'node_preview' => $this->node_preview,
+            'node_submitted' => $this->node_submitted,
+        );
+    }
+
+
+
+
+}

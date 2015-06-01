@@ -1,0 +1,44 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function jit_products_default_products_uninstall(){
+      $path = 'Products';
+      $ext = 'product';
+      $files = file_scan_directory(drupal_get_path('module', 'jit_products'). '/'.$path, '/.*\.'.$ext.'$/');
+  foreach ($files as $filepath => $file) {
+    require $filepath;
+    if(isset($jit_uninstall)){
+        if(isset($product_type)){
+            jit_products_uninstall_delete_fields((object)$product_type,'commerce_product');
+        commerce_product_ui_product_type_delete($product_type['type']);
+        }
+        if(isset($node_type)){
+            //jit_products_uninstall_delete_fields($node_type,'node');
+            node_type_delete($node_type->type);
+        }
+
+        }
+  }
+
+
+  }
+
+  function jit_products_uninstall_delete_fields($entity,$entity_type){
+
+      foreach($entity->fields as $field){
+          //we don't want to remove any fields, only instances at the moment.
+
+              $instance = field_info_instance($entity_type,$field->name,$entity->type);
+              if(isset($instance)){
+                field_delete_instance($instance);
+              }
+
+      }
+  }
+
+

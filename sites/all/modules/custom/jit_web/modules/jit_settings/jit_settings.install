@@ -1,0 +1,447 @@
+<?php
+module_load_include('inc', 'jit_settings', 'field-settings/field-settings');
+module_load_include('inc', 'jit_settings', 'util/utilities');
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+* Implementation of hook_install().
+ *
+ */
+
+function jit_settings_install() {
+
+
+jit_settings_insert_default_roles();
+
+//Automatically update 'updated' to current timestamp whenever a row is changed
+$query = db_query('
+  ALTER TABLE jit_settings_fields
+  MODIFY modifieddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+');
+
+$query = db_query('
+  ALTER TABLE jit_settings_fields
+  MODIFY modifieddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+');
+
+$query = db_query('
+  ALTER TABLE jit_settings_fields
+  MODIFY modifieddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+');
+
+jit_settings_insert_default_panels();
+jit_settings_insert_default_sections();
+jit_settings_insert_default_field_settings();
+
+}
+
+
+function jit_settings_insert_default_roles(){
+
+
+    if(!user_role_load_by_name('JIT Employee')){
+        $role = new stdClass();
+        $role->name = 'JIT Employee';
+        user_role_save($role);
+    }
+
+    if(!user_role_load_by_name('JIT Customer')){
+        $role = new stdClass();
+        $role->name = 'JIT Customer';
+        user_role_save($role);
+    }
+}
+/**
+* Implementation of hook_uninstall().
+ *
+ *
+ */
+
+
+function jit_settings_uninstall() {
+
+}
+
+
+
+/**
+* Implementation of hook_schema().
+*/
+function jit_settings_schema() {
+$schema ['jit_settings_fields'] = array(
+    'description' => 'The base table to show where fields will be used on product pages.',
+    'fields' => array(
+      'jid' => array(
+        'description' => 'The primary identifier for a field.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'fid' => array(
+        'description' => 'The primary identifier for a field.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'field_name' => array(
+        'description' => 'The {product_field_name} of a field.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'type' => array(
+        'description' => 'The {product_field_type} of a field.',
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'modifiedby' => array(
+        'description' => 'The user that last modified a record',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'modifieddate' => array(
+        'type' => 'datetime',
+        'description' => 'The date time that the user last modified a record',
+        'mysql_type' => 'timestamp',
+        'not null' => TRUE,
+
+      ),
+    ),
+    'unique keys' => array(
+      'fid' => array('fid'),
+    ),
+
+    'primary key' => array('jid'),
+  );
+
+$schema['jit_settings_sections'] = array(
+    'description' => 'The base table to show the various accordian sections and their codes',
+    'fields' => array(
+      'jid' => array(
+        'description' => 'The primary identifier for a record.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'section_name' => array(
+        'description' => 'The section name.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'section_code' => array(
+        'description' => 'The short code for the section.',
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+        'panel_name' => array(
+        'description' => 'The panel name.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+        'weight' => array(
+        'description' => 'the weight of the column in its panel',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'modifiedby' => array(
+        'description' => 'The user that last modified a record',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'modifieddate' => array(
+        'type' => 'timestamp',
+        'description' => 'The date time that the user last modified a record',
+        'mysql_type' => 'timestamp',
+        'not null' => TRUE,
+
+      ),
+    ),
+    'unique keys' => array(
+      'section_code' => array('section_code'),
+    ),
+
+    'primary key' => array('jid'),
+  );
+
+$schema['jit_settings_panels'] = array(
+    'description' => 'The base table to show the various accordian panels',
+    'fields' => array(
+      'jid' => array(
+        'description' => 'The primary identifier for a record.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'panel_name' => array(
+        'description' => 'The panel name.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'permission' => array(
+        'description' => 'permission that can view panel',
+        'type' => 'varchar',
+        'length' => 300,
+        'not null' => TRUE,
+        'default' => 'access content'
+      ),
+      'weight' => array(
+        'description' => 'the weight of the panel in the accordian',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'status' => array(
+        'description' => 'the status (0 inactive, 1 active) of the panel in the accordian',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'modifiedby' => array(
+        'description' => 'The user that last modified a record',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'modifieddate' => array(
+        'type' => 'timestamp',
+        'description' => 'The date time that the user last modified a record',
+        'mysql_type' => 'timestamp',
+        'not null' => TRUE,
+
+      ),
+    ),
+    'unique keys' => array(
+      'panel_name' => array('panel_name'),
+    ),
+
+    'primary key' => array('jid'),
+  );
+
+$schema['jit_settings_nodetype_sections'] = array(
+    'description' => 'The base table to show the various custom sections',
+    'fields' => array(
+      'jid' => array(
+        'description' => 'The primary identifier for a record.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'section_name' => array(
+        'description' => 'The custom section name.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'section_code' => array(
+        'description' => 'Code of the custom section being named',
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'node_type' => array(
+        'description' => 'the node type assigned to the custom names',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => ''
+      ),
+      'modifiedby' => array(
+        'description' => 'The user that last modified a record',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'modifieddate' => array(
+        'type' => 'timestamp',
+        'description' => 'The date time that the user last modified a record',
+        'mysql_type' => 'timestamp',
+        'not null' => TRUE,
+
+      ),
+    ),
+    'unique keys' => array(
+      'section_code_per_node_type' => array('section_code','node_type'),
+    ),
+
+    'primary key' => array('jid'),
+  );
+return $schema;
+}
+
+function jit_settings_insert_default_sections(){
+    global $user;
+    $installuser = 'installby'.$user->name;
+    $sections = array();
+
+    $sections['ts']['section_name'] = 'Techinical Specifications';
+    $sections['ts']['section_code'] = 'ts';
+    $sections['ts']['panel_name'] = 'details';
+    $sections['ts']['weight'] = 0;
+    $sections['cr']['section_name'] = 'Color';
+    $sections['cr']['section_code'] = 'cr';
+    $sections['cr']['panel_name'] = 'details';
+    $sections['cr']['weight'] = 10;
+    $sections['cu']['section_name'] = 'Custom';
+    $sections['cu']['section_code'] = 'cu';
+    $sections['cu']['panel_name'] = 'details';
+    $sections['cu']['weight'] = 20;
+    $sections['dp']['section_name'] = 'Part';
+    $sections['dp']['section_code'] = 'dp';
+    $sections['dp']['panel_name'] = 'dimensions';
+    $sections['dp']['weight'] = 0;
+    $sections['dc']['section_name'] = 'Custom';
+    $sections['dc']['section_code'] = 'dc';
+    $sections['dc']['panel_name'] = 'dimensions';
+    $sections['dc']['weight'] = 10;
+    $sections['m1']['section_name'] = 'Custom';
+    $sections['m1']['section_code'] = 'm1';
+    $sections['m1']['panel_name'] = 'materials';
+    $sections['m1']['weight'] = 0;
+    $sections['m2']['section_name'] = 'Custom';
+    $sections['m2']['section_code'] = 'm2';
+    $sections['m2']['panel_name'] = 'materials';
+    $sections['m2']['weight'] = 10;
+    $sections['m3']['section_name'] = 'Custom';
+    $sections['m3']['section_code'] = 'm3';
+    $sections['m3']['panel_name'] = 'materials';
+    $sections['m3']['weight'] = 20;
+    $sections['m4']['section_name'] = 'Custom';
+    $sections['m4']['section_code'] = 'm4';
+    $sections['m4']['panel_name'] = 'materials';
+    $sections['m4']['weight'] = 30;
+    $sections['d1']['section_name'] = 'Custom';
+    $sections['d1']['section_code'] = 'd1';
+    $sections['d1']['panel_name'] = 'drawings';
+    $sections['d1']['weight'] = 0;
+    $sections['d2']['section_name'] = 'Custom';
+    $sections['d2']['section_code'] = 'd2';
+    $sections['d2']['panel_name'] = 'drawings';
+    $sections['d2']['weight'] = 10;
+    $sections['d3']['section_name'] = 'Custom';
+    $sections['d3']['section_code'] = 'd3';
+    $sections['d3']['panel_name'] = 'drawings';
+    $sections['d3']['weight'] = 20;
+    $sections['d4']['section_name'] = 'Custom';
+    $sections['d4']['section_code'] = 'd4';
+    $sections['d4']['panel_name'] = 'drawings';
+    $sections['d4']['weight'] = 30;
+    $sections['am']['section_name'] = 'Manufacturer Links';
+    $sections['am']['section_code'] = 'am';
+    $sections['am']['panel_name'] = 'administration';
+    $sections['am']['weight'] = 0;
+    $sections['ao']['section_name'] = 'OSAS';
+    $sections['ao']['section_code'] = 'ao';
+    $sections['ao']['panel_name'] = 'administration';
+    $sections['ao']['weight'] = 10;
+    $sections['aj']['section_name'] = 'JIT Info';
+    $sections['aj']['section_code'] = 'aj';
+    $sections['aj']['panel_name'] = 'administration';
+    $sections['aj']['weight'] = 20;
+
+
+    foreach ($sections as $section) {
+    //TODO:make this SP call and normalize throughout application
+    db_insert('jit_settings_sections')
+            ->fields(array(
+              'section_name' => $section['section_name'],
+              'section_code' => $section['section_code'],
+              'panel_name' => $section['panel_name'],
+              'weight' => $section['weight'],
+              'modifiedby' => $installuser,
+            ))
+            ->execute();
+
+    }
+
+}
+
+function jit_settings_insert_default_field_settings(){
+    $fields = field_info_fields();
+
+    foreach($fields as $index => $field){
+        if(isset($field['settings']['jit_type'])){
+
+            $jitfield = array(
+                'fid' => $field['id'],
+                'jit_type' => $field['settings']['jit_type'],
+                'field_name' => $index,
+                'field_machine_name' => $field['field_name'],
+            );
+
+            jit_web_update_fields($jitfield,FALSE);
+        }
+    }
+
+    drupal_flush_all_caches();
+
+}
+
+function jit_settings_insert_default_panels(){
+    global $user;
+    $panels = array();
+
+    $panels[0]['panel_name'] = 'details';
+    $panels[0]['weight'] = 0;
+    $panels[0]['status'] = 1;
+    $panels[0]['permissions'] = 'access content';
+    $panels[1]['panel_name'] = 'dimensions';
+    $panels[1]['weight'] = 10;
+    $panels[1]['status'] = 1;
+    $panels[1]['permissions'] = 'access content';
+    $panels[2]['panel_name'] = 'materials';
+    $panels[2]['weight'] = 20;
+    $panels[2]['status'] = 1;
+    $panels[2]['permissions'] = 'access content';
+    $panels[3]['panel_name'] = 'drawings';
+    $panels[3]['weight'] = 30;
+    $panels[3]['status'] = 1;
+    $panels[3]['permissions'] = 'access content';
+    $panels[4]['panel_name'] = 'accessories';
+    $panels[4]['weight'] = 40;
+    $panels[4]['status'] = 1;
+    $panels[4]['permissions'] = 'access content';
+    $panels[5]['panel_name'] = 'administration';
+    $panels[5]['weight'] = 50;
+    $panels[5]['status'] = 1;
+    $panels[5]['permissions'] = 'administer nodes';
+
+    foreach($panels as $panel){
+        db_insert('jit_settings_panels')
+            ->fields(array(
+              'panel_name' => $panel['panel_name'],
+              'weight' => $panel['weight'],
+              'status' => $panel['status'],
+              'permission' => $panel['permissions'],
+              'modifiedby' => 'installby'.$user->name,
+            ))
+            ->execute();
+    }
+}

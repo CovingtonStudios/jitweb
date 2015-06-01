@@ -1,0 +1,62 @@
+name = JIT
+description = This Module is the main setup for all JIT modules and JIT Theme.
+core = 7.x
+package = JIT Components
+
+dependencies[] = taxonomy
+dependencies[] = addressfield
+dependencies[] = autocomplete_deluxe
+dependencies[] = commerce_cart
+dependencies[] = ctools
+dependencies[] = commerce_checkout
+dependencies[] = commerce_customer
+dependencies[] = commerce_customer_ui
+dependencies[] = email
+dependencies[] = entityconnect
+dependencies[] = entityreference
+dependencies[] = entity_rules
+dependencies[] = entity2text
+dependencies[] = entity_token
+dependencies[] = entityform
+;dependencies[] = entityform_notifcations
+dependencies[] = libraries
+dependencies[] = jquery_update
+dependencies[] = commerce_line_item
+dependencies[] = commerce_line_item_ui
+dependencies[] = link
+dependencies[] = module_filter
+dependencies[] = menu_block
+dependencies[] = commerce_order
+dependencies[] = commerce_order_ui
+dependencies[] = pathauto
+dependencies[] = commerce_payment
+dependencies[] = commerce_payment_ui
+dependencies[] = php
+dependencies[] = commerce_price
+dependencies[] = commerce_product
+dependencies[] = commerce_product_pricing
+dependencies[] = commerce_product_reference
+dependencies[] = commerce_product_ui
+dependencies[] = rules
+dependencies[] = rules_admin
+dependencies[] = select_or_other
+dependencies[] = commerce_tax
+dependencies[] = taxonomy_menu
+dependencies[] = viewfield
+dependencies[] = views
+dependencies[] = views_bootstrap
+dependencies[] = views_bootstrap_multicarousel
+dependencies[] = views_ui
+
+
+
+
+files[] = jit_web.module
+files[] = jit_web.install
+files[] = Util/utilities.inc
+files[] = classes/JITField.class
+files[] = classes/JITFieldInstance.class
+files[] = classes/JITFieldSchema.class
+files[] = classes/JITNodeType.class
+files[] = classes/JITTaxonomyTerm.class
+files[] = classes/JITWidget.class

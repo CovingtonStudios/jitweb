@@ -1,0 +1,193 @@
+<?php
+module_load_include('inc', 'jit_web', 'util/utilities');
+module_load_include('inc', 'jit_settings', 'includes/field-settings');
+module_load_include('inc', 'jit_settings', 'includes/section-settings');
+
+
+/**
+ * Implements hook_form_alter();
+ */
+function jit_settings_form_node_type_form_alter(&$form, &$form_state) {
+    // Define field set in additional settings group
+    $form['jit'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('JIT Products settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#weight' => 10,
+      '#group' => 'additional_settings',
+    );
+
+    $panels = db_select('jit_settings_panels','p')
+        ->fields('p',array('panel_name','weight'))
+        ->condition('status',1,'=')
+        ->orderBy('weight')
+        ->execute()
+        ->fetchAllAssoc('panel_name');
+
+    foreach($panels as $panel_name => $panel){
+        $sections = db_select('jit_settings_sections','s')
+            ->fields('s',array('section_name','section_code','weight'))
+            ->condition('section_name','Custom%','LIKE')
+            ->condition('panel_name',$panel_name,'=')
+            ->orderBy('weight')
+            ->execute()
+            ->fetchAllAssoc('section_code');
+
+        if(count($sections) != 0){
+            //build panel fieldset
+            $form['jit'][$panel_name] = array(
+                '#type' => 'fieldset',
+                '#title' => t('Custom Fields for '.ucwords($panel_name)),
+                '#collapsible' => FALSE,
+                '#collapsed' => FALSE,
+                '#weight' => $panel->weight,
+
+              );
+        }
+
+        foreach($sections as $index => $section){
+
+            $section_name = db_select('jit_settings_nodetype_sections','nts')
+                ->fields('nts',array('section_code','section_name'))
+                ->condition('node_type', $form['#node_type']->type, '=')
+                ->condition('section_code',$index,'=')
+                ->execute()
+                ->fetchAllKeyed(0);
+
+            if(count($section_name)>0){
+                $form['jit'][$panel_name][$index] = array(
+
+                    '#type' => 'textfield',
+
+                    '#title' => t($section->section_name),
+
+                    '#default_value' => $section_name[$index],
+
+                    '#size' => 60,
+
+                    '#maxlength' => 300,
+
+                    '#required' => FALSE,
+
+                  );
+            }else{
+                $form['jit'][$panel_name][$index] = array(
+
+                    '#type' => 'textfield',
+
+                    '#title' => t($section->section_name),
+
+                    '#default_value' => variable_get('custom_'.$index.'_name_' . $form['#node_type']->type, ''),
+
+                    '#size' => 60,
+
+                    '#maxlength' => 300,
+
+                    '#required' => FALSE,
+
+                  );
+            }
+
+
+        }
+
+
+
+    }
+
+    $form['#submit'][] = 'jit_settings_node_type_form_submitted';
+
+
+}
+
+function jit_settings_menu(){
+  $items = array();
+
+  $items['admin/settings/jit-settings'] = array(
+    'title' => 'JIT Products Module settings',
+    'description' => 'Use this page for CRUD the Accordian section settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jit_settings_admin'),
+    'access arguments' => array('administer jit_settings settings'),
+    'type' => MENU_CALLBACK,
+   );
+
+  $items['admin/settings/jit-settings/section/insert'] = array(
+    'title' => 'JIT Products Module Section Insert Page',
+    'description' => 'Use this page to Insert the Accordian section settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jit_settings_get_section_insert_form'),
+    'access arguments' => array('administer jit_settings settings'),
+    'type' => MENU_CALLBACK,
+   );
+
+  $items['admin/settings/jit-settings/section/%/edit'] = array(
+    'title' => 'JIT Products Module Section Edit Page',
+    'description' => 'Use this page to Edit the Accordian section settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jit_settings_get_section_edit_form',4),
+    'access arguments' => array('administer jit_settings settings'),
+    'type' => MENU_CALLBACK,
+   );
+
+  $items['admin/settings/jit-settings/section/%/edit'] = array(
+    'title' => 'JIT Products Module Section Edit Page',
+    'description' => 'Use this page to Edit the Accordian section settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jit_settings_get_section_edit_form',4),
+    'access arguments' => array('administer jit_settings settings'),
+    'type' => MENU_CALLBACK,
+   );
+
+  $items['admin/settings/jit-settings/section/%/delete'] = array(
+    'title' => 'JIT Products Module Section Delete Confirmation Page',
+    'description' => 'Use this page to Delete the Accordian section settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('jit_settings_delete_section_form',4),
+    'access arguments' => array('administer jit_settings settings'),
+    'type' => MENU_CALLBACK,
+   );
+
+
+  return $items;
+}
+
+
+function jit_settings_node_type_form_submitted(&$form, &$form_state){
+
+    $sections = array();
+
+    $seccodes = db_select('jit_settings_sections','s')
+        ->fields('s',array('section_code'))
+        ->condition('section_name', 'CUSTOM%', 'LIKE')
+        ->execute()
+        ->fetchAllAssoc('section_code');
+
+
+    foreach($form_state['values'] as $index => $value){
+
+        if(!is_array($value) && !empty($value)){
+
+            if(array_key_exists($index,$seccodes)){
+                $sections[$index]=array(
+                  'section_code' => $index,
+                  'section_name' => $value,
+                  'node_type' => $form['#node_type']->type,
+                );
+            }
+
+        }
+
+    }
+
+    jit_web_update_nodetype_sections($sections);
+
+}
+
+
+
+
+
+
+

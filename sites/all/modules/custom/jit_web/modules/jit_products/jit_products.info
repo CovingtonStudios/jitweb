@@ -1,0 +1,13 @@
+name = Default Types
+description = This module will install the default product types and product displays for all JIT products.  DO NOT ENABLE IF PRODUCT TYPES ARE ALREADY INSTALLED!!!!!
+core = 7.x
+package = JIT Components
+
+dependencies[] = jit_web
+dependencies[] = jit_settings
+dependencies[] = jit_views
+
+
+files[] = jit_products.module
+files[] = jit_products.install
+files[] = includes/products.inc

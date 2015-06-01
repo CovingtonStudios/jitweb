@@ -1,0 +1,11 @@
+name = Default Views
+description = This Modules Installs the Views to be used with the JIT Theme and Modules.
+core = 7.x
+package = JIT Components
+
+
+dependencies[] = views
+dependencies[] = views_bootstrap
+dependencies[] = views_bootstrap_multicarousel
+
+files[] = jit_views.module

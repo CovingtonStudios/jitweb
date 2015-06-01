@@ -1,0 +1,290 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+$view = new view();
+$view->name = 'taxonomy_vocabulary';
+$view->description = 'A view to emulate Drupal core\'s handling of taxonomy/term.';
+$view->tag = 'default';
+$view->base_table = 'node';
+$view->human_name = 'Taxonomy Vocabulary';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['access']['type'] = 'none';
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['query']['options']['disable_sql_rewrite'] = TRUE;
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['style_plugin'] = 'views_bootstrap_table_plugin_style';
+$handler->display->display_options['style_options']['columns'] = array(
+  'field_product_image' => 'field_product_image',
+  'title' => 'title',
+  'field_housing_material' => 'field_housing_material',
+  'field_for_use_with' => 'field_for_use_with',
+  'field_plmm_1' => 'field_plmm_1',
+  'field_elmm' => 'field_elmm',
+  'field_elin' => 'field_elin',
+  'field_plin' => 'field_plin',
+);
+$handler->display->display_options['style_options']['default'] = '-1';
+$handler->display->display_options['style_options']['info'] = array(
+  'field_product_image' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'title' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 0,
+  ),
+  'field_housing_material' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'field_for_use_with' => array(
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'field_plmm_1' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'field_elmm' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'field_elin' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+  'field_plin' => array(
+    'sortable' => 0,
+    'default_sort_order' => 'asc',
+    'align' => '',
+    'separator' => '',
+    'empty_column' => 1,
+  ),
+);
+$handler->display->display_options['style_options']['bootstrap_styles'] = array(
+  'hover' => 'hover',
+  'striped' => 0,
+  'bordered' => 0,
+  'condensed' => 0,
+);
+/* Relationship: Content: Referenced products */
+$handler->display->display_options['relationships']['field_product_reference_product_id']['id'] = 'field_product_reference_product_id';
+$handler->display->display_options['relationships']['field_product_reference_product_id']['table'] = 'field_data_field_product_reference';
+$handler->display->display_options['relationships']['field_product_reference_product_id']['field'] = 'field_product_reference_product_id';
+$handler->display->display_options['relationships']['field_product_reference_product_id']['required'] = TRUE;
+/* Field: Content: Product Image */
+$handler->display->display_options['fields']['field_product_image']['id'] = 'field_product_image';
+$handler->display->display_options['fields']['field_product_image']['table'] = 'field_data_field_product_image';
+$handler->display->display_options['fields']['field_product_image']['field'] = 'field_product_image';
+$handler->display->display_options['fields']['field_product_image']['label'] = 'Image';
+$handler->display->display_options['fields']['field_product_image']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_product_image']['click_sort_column'] = 'fid';
+$handler->display->display_options['fields']['field_product_image']['settings'] = array(
+  'image_style' => 'thumbnail',
+  'image_link' => 'content',
+);
+$handler->display->display_options['fields']['field_product_image']['group_column'] = 'entity_id';
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = 'Name';
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+/* Field: Field: Shell Material */
+$handler->display->display_options['fields']['field_housing_material']['id'] = 'field_housing_material';
+$handler->display->display_options['fields']['field_housing_material']['table'] = 'field_data_field_housing_material';
+$handler->display->display_options['fields']['field_housing_material']['field'] = 'field_housing_material';
+$handler->display->display_options['fields']['field_housing_material']['label'] = 'Material';
+$handler->display->display_options['fields']['field_housing_material']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_housing_material']['settings'] = array(
+  'link' => 0,
+);
+/* Field: Commerce Product: For Use With */
+$handler->display->display_options['fields']['field_for_use_with']['id'] = 'field_for_use_with';
+$handler->display->display_options['fields']['field_for_use_with']['table'] = 'field_data_field_for_use_with';
+$handler->display->display_options['fields']['field_for_use_with']['field'] = 'field_for_use_with';
+$handler->display->display_options['fields']['field_for_use_with']['relationship'] = 'field_product_reference_product_id';
+$handler->display->display_options['fields']['field_for_use_with']['label'] = 'For Products';
+$handler->display->display_options['fields']['field_for_use_with']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_for_use_with']['type'] = 'taxonomy_term_reference_plain';
+$handler->display->display_options['fields']['field_for_use_with']['delta_offset'] = '0';
+/* Field: Enclosure Length (MM) */
+$handler->display->display_options['fields']['field_plmm_1']['id'] = 'field_plmm_1';
+$handler->display->display_options['fields']['field_plmm_1']['table'] = 'field_data_field_plmm';
+$handler->display->display_options['fields']['field_plmm_1']['field'] = 'field_plmm';
+$handler->display->display_options['fields']['field_plmm_1']['ui_name'] = 'Enclosure Length (MM)';
+$handler->display->display_options['fields']['field_plmm_1']['label'] = 'Enclosure Length (MM)';
+$handler->display->display_options['fields']['field_plmm_1']['settings'] = array(
+  'thousand_separator' => ',',
+  'decimal_separator' => '.',
+  'scale' => '2',
+  'prefix_suffix' => 1,
+);
+/* Field: PCB Length (MM) */
+$handler->display->display_options['fields']['field_elmm']['id'] = 'field_elmm';
+$handler->display->display_options['fields']['field_elmm']['table'] = 'field_data_field_elmm';
+$handler->display->display_options['fields']['field_elmm']['field'] = 'field_elmm';
+$handler->display->display_options['fields']['field_elmm']['ui_name'] = 'PCB Length (MM)';
+$handler->display->display_options['fields']['field_elmm']['label'] = 'PCB Length (MM)';
+$handler->display->display_options['fields']['field_elmm']['settings'] = array(
+  'thousand_separator' => ',',
+  'decimal_separator' => '.',
+  'scale' => '2',
+  'prefix_suffix' => 1,
+);
+/* Field: Enclosure Length (IN) */
+$handler->display->display_options['fields']['field_elin']['id'] = 'field_elin';
+$handler->display->display_options['fields']['field_elin']['table'] = 'field_data_field_elin';
+$handler->display->display_options['fields']['field_elin']['field'] = 'field_elin';
+$handler->display->display_options['fields']['field_elin']['ui_name'] = 'Enclosure Length (IN)';
+$handler->display->display_options['fields']['field_elin']['label'] = 'Enclosure Length (in)';
+$handler->display->display_options['fields']['field_elin']['settings'] = array(
+  'thousand_separator' => ' ',
+  'decimal_separator' => '.',
+  'scale' => '2',
+  'prefix_suffix' => 1,
+);
+/* Field: PCB Length (IN) */
+$handler->display->display_options['fields']['field_plin']['id'] = 'field_plin';
+$handler->display->display_options['fields']['field_plin']['table'] = 'field_data_field_plin';
+$handler->display->display_options['fields']['field_plin']['field'] = 'field_plin';
+$handler->display->display_options['fields']['field_plin']['ui_name'] = 'PCB Length (IN)';
+$handler->display->display_options['fields']['field_plin']['label'] = 'PCB Length (IN)';
+$handler->display->display_options['fields']['field_plin']['settings'] = array(
+  'thousand_separator' => ',',
+  'decimal_separator' => '.',
+  'scale' => '2',
+  'prefix_suffix' => 1,
+);
+/* Sort criterion: Content: Sticky */
+$handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
+$handler->display->display_options['sorts']['sticky']['table'] = 'node';
+$handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
+/* Sort criterion: Content: Post date */
+$handler->display->display_options['sorts']['created']['id'] = 'created';
+$handler->display->display_options['sorts']['created']['table'] = 'node';
+$handler->display->display_options['sorts']['created']['field'] = 'created';
+/* Filter criterion: Content: Published or admin */
+$handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
+$handler->display->display_options['filters']['status_extra']['table'] = 'node';
+$handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
+$handler->display->display_options['filters']['status_extra']['group'] = 1;
+$handler->display->display_options['filters']['status_extra']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Product Reference (field_product_reference:delta) */
+$handler->display->display_options['filters']['delta']['id'] = 'delta';
+$handler->display->display_options['filters']['delta']['table'] = 'field_data_field_product_reference';
+$handler->display->display_options['filters']['delta']['field'] = 'delta';
+$handler->display->display_options['filters']['delta']['value']['value'] = '0';
+$handler->display->display_options['filters']['delta']['group'] = 1;
+/* Filter criterion: Content: Manufacturer (field_manufacturer) */
+$handler->display->display_options['filters']['field_manufacturer_target_id']['id'] = 'field_manufacturer_target_id';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['table'] = 'field_data_field_manufacturer';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['field'] = 'field_manufacturer_target_id';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['operator'] = 'regular_expression';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_manufacturer_target_id']['expose']['operator_id'] = 'field_manufacturer_target_id_op';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['expose']['label'] = 'Manufacturer';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['expose']['operator'] = 'field_manufacturer_target_id_op';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['expose']['identifier'] = 'field_manufacturer_target_id';
+$handler->display->display_options['filters']['field_manufacturer_target_id']['expose']['remember_roles'] = array(
+  2 => '2',
+  1 => 0,
+  3 => 0,
+);
+/* Filter criterion: Field: Shell Material (field_housing_material) */
+$handler->display->display_options['filters']['field_housing_material_target_id']['id'] = 'field_housing_material_target_id';
+$handler->display->display_options['filters']['field_housing_material_target_id']['table'] = 'field_data_field_housing_material';
+$handler->display->display_options['filters']['field_housing_material_target_id']['field'] = 'field_housing_material_target_id';
+$handler->display->display_options['filters']['field_housing_material_target_id']['relationship'] = 'field_product_reference_product_id';
+$handler->display->display_options['filters']['field_housing_material_target_id']['exposed'] = TRUE;
+$handler->display->display_options['filters']['field_housing_material_target_id']['expose']['operator_id'] = 'field_housing_material_target_id_op';
+$handler->display->display_options['filters']['field_housing_material_target_id']['expose']['label'] = 'Shell Material (field_housing_material)';
+$handler->display->display_options['filters']['field_housing_material_target_id']['expose']['operator'] = 'field_housing_material_target_id_op';
+$handler->display->display_options['filters']['field_housing_material_target_id']['expose']['identifier'] = 'field_housing_material_target_id';
+$handler->display->display_options['filters']['field_housing_material_target_id']['is_grouped'] = TRUE;
+$handler->display->display_options['filters']['field_housing_material_target_id']['group_info']['label'] = 'Shell Material (field_housing_material)';
+$handler->display->display_options['filters']['field_housing_material_target_id']['group_info']['identifier'] = 'field_housing_material_target_id';
+$handler->display->display_options['filters']['field_housing_material_target_id']['group_info']['group_items'] = array(
+  1 => array(
+    'title' => '',
+    'operator' => '=',
+    'value' => array(
+      'value' => '',
+      'min' => '',
+      'max' => '',
+    ),
+  ),
+  2 => array(
+    'title' => '',
+    'operator' => '=',
+    'value' => array(
+      'value' => '',
+      'min' => '',
+      'max' => '',
+    ),
+  ),
+  3 => array(
+    'title' => '',
+    'operator' => '=',
+    'value' => array(
+      'value' => '',
+      'min' => '',
+      'max' => '',
+    ),
+  ),
+);
+
+/* Display: Page */
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->display->display_options['exposed_block'] = TRUE;
+$handler->display->display_options['path'] = 'products';
+$handler->display->display_options['menu']['type'] = 'normal';
+$handler->display->display_options['menu']['title'] = 'Products';
+$handler->display->display_options['menu']['weight'] = '1';
+$handler->display->display_options['menu']['name'] = 'main-menu';
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+
+/* Display: Feed */
+$handler = $view->new_display('feed', 'Feed', 'feed');
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['pager']['options']['items_per_page'] = 15;
+$handler->display->display_options['style_plugin'] = 'rss';
+$handler->display->display_options['row_plugin'] = 'node_rss';
+$handler->display->display_options['path'] = 'taxonomy/term/%/%/feed';
+$handler->display->display_options['displays'] = array(
+  'page' => 'page',
+  'default' => 0,
+);

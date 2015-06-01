@@ -1,0 +1,14 @@
+name = Taxonomy
+description = This Modules alters Drupal's Taxonomy Module to automatically assign the Products vocabulary as the parent of new Taxonomy Terms and by default set them not to show on Products Menu.
+core = 7.x
+package = JIT Components
+
+dependencies[] = taxonomy
+
+
+
+
+
+files[] = jit_taxonomy.module
+files[] = jit_taxonomy.install
+files[] = includes/taxonomy-assign-parent.inc

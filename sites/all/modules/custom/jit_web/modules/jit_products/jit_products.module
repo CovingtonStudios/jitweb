@@ -1,0 +1,160 @@
+<?php
+module_load_include('inc', 'jit_web', 'util/utilities');
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function jit_products_default_products(){
+      $path = 'Products';
+      $ext = 'product';
+      $files = file_scan_directory(drupal_get_path('module', 'jit_products'). '/'.$path, '/.*\.'.$ext.'$/');
+  foreach ($files as $filepath => $file) {
+    require $filepath;
+    //If uninstall exists AND it is set to False this signals that the product should be
+    //reinstalled.  If uninstall is set to true, then the product should be uninstalled.
+    if(isset($jit_uninstall) && $jit_uninstall == FALSE){
+        if(isset($product_type)){
+            //save commerce product.
+            commerce_product_ui_product_type_save($product_type, FALSE);
+
+            //only create product display if a product was created.
+            if(isset($node_type)){
+                node_type_save($node_type);
+            }
+
+            if(isset($taxonomy_term)){
+                taxonomy_term_save($taxonomy_term);
+            }
+
+        }
+
+    }
+
+  }
+
+
+
+}
+
+
+
+/**
+ * Implements hook_node_type_insert().
+ *
+ * Much like hook_node_insert() lets us know that a node is being
+ * inserted into the database, hook_node_type_insert() lets us know
+ * that a new content type has been inserted.
+ *
+ * Since Drupal will at some point insert our new content type,
+ * this gives us a chance to add the fields we want.
+ *
+ * It is called for all inserts to the content type database, so
+ * we have to make sure we're only modifying the type we're
+ * concerned with.
+ */
+function jit_products_node_type_insert($content_type) {
+
+    //before we do ANYTHING lets make sure the modules of the content type
+    //is jit_products. Otherwise we just let it go.
+    if(property_exists($content_type, 'jit_products')){
+
+        //set variables to the correct values
+        jit_web_update_nodetype_variables($content_type);
+
+        //update the custom section names for the node type.
+        jit_web_update_nodetype_sections($content_type->sections,FALSE);
+
+        // First we add the body field. Node API helpfully gives us
+        // node_add_body_field().
+        // We'll set the body label now, although we could also set
+        // it along with our other instance properties later.
+        $body_instance = node_add_body_field($content_type, t('Body'));
+
+        // Add our example_node_list view mode to the body instance
+        // display by instructing the body to display as a summary.
+        $body_instance['display']['default'] = array(
+          'label' => 'hidden',
+          'type' => 'text_summary_or_trimmed',
+        );
+
+        // Save our changes to the body field instance.
+        field_update_instance($body_instance);
+
+        jit_products_attach_fields_to_entity($content_type);
+
+        jit_products_create_bundle_settings($content_type);
+
+    }
+}
+
+function jit_products_create_bundle_settings($content_type){
+
+    $view_modes_settings = field_view_mode_settings('node', $content_type->type);
+
+    $bundle_settings = array(
+      'extra_fields' => $content_type->extra_fields,
+      'view_modes' => $view_modes_settings,
+    );
+
+    field_bundle_settings('node', $content_type->type, $bundle_settings);
+
+
+}
+
+
+function jit_products_commerce_product_type_insert($product_type, $skip_reset){
+    //before we do ANYTHING lets make sure the modules of the product type
+    //is jit_products. Otherwise we just let it go.
+    if(isset($product_type['jit_products'])){
+    //method is expecting an object NOT an array set
+    $product = (object) $product_type;
+
+    //call function to create fields and instances
+    jit_products_attach_fields_to_entity($product);
+
+
+    }
+
+
+}
+
+
+
+function jit_products_field_create_field($field){
+
+    if(isset($field['settings']['jit_type'])){
+    //set jit_type
+            $jitfield = array(
+              'field_name' =>'',
+              'field_machine_name' => $field['field_name'],
+              'fid' => $field['id'],
+              'jit_type' => $field['settings']['jit_type'],
+              );
+
+             jit_web_update_fields($jitfield,FALSE);
+    }
+}
+
+function jit_products_attach_fields_to_entity($entity){
+
+
+            foreach($entity->fields as $field){
+                if(!jit_products_field_exists($field->name)){
+                field_create_field($field->get_schema_array());
+
+                }
+
+                field_create_instance($field->get_instance_array());
+
+            }
+
+
+
+}
+
+
+
+

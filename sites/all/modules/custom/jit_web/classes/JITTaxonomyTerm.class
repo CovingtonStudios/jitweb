@@ -1,0 +1,59 @@
+<?php
+module_load_include('inc', 'jit_web', 'util/utilities');
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of JITTaxonomyTerm
+ *
+ * @author TECH
+ */
+class JITTaxonomyTerm {
+
+    /** @var integer Definition: var $vid;*/
+    var $vid;
+    /** @var string Definition: var $name;*/
+    var $name;
+    /** @var integer Definition: var $tid;*/
+    var $tid;
+    /** @var string Definition: var $description;*/
+    var $description;
+    /** @var string Definition: var $format;*/
+    var $format;
+    /** @var integer Definition: var $weight=0;*/
+    var $weight=0;
+    /** @var array Definition: var $parent;*/
+    var $parent;
+    /** @var string Definition: var $vocabulary_machine_name;*/
+    var $vocabulary_machine_name;
+    /** @var string Definition: var $original;*/
+    var $original;
+    /** @var boolean Definition: var $field_show_in_products_menu;*/
+    var $field_show_in_products_menu;
+
+
+  public function __construct($name,$parent_name,$show_in_menu = FALSE,$vocab_name='products'){
+
+      $vocab = taxonomy_vocabulary_machine_name_load($vocab_name);
+
+      if ($vocab){
+        $this->name = $name;
+        $this->vid = $vocab->vid;
+        $this->vocabulary_machine_name = $vocab->machine_name;
+        $this->field_show_in_products_menu = jit_web_get_field_value_array($show_in_menu);
+
+        $parent_tid = jit_web_get_tid_from_taxonomy_term_name($parent_name, $vocab_name);
+
+        if($parent_tid){
+            $this->parent = array($parent_tid);
+        }
+      }
+
+
+
+
+  }
+}

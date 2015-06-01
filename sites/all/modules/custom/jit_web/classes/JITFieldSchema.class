@@ -1,0 +1,293 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ * Description of JITFieldSchema
+ *
+ * @author TECH
+ */
+class JITFieldSchema {
+
+        /** @var string Definition: var $name;*/
+    var $name;
+        /** @var string Definition:     var $type;*/
+    var $type;
+	/** @var integer Definition:     var $cardinality = 1;*/
+    var $cardinality = 1;
+	/** @var array Definition:     var $entity_types; //array*/
+    var $entity_types; //array
+	/** @var integer Definition: var $active = 1;*/
+    var $active = 1;
+	/** @var integer Definition:     var $deleted = 0;*/
+    var $deleted = 0;
+	/** @var array Definition:     var $indexes;*/
+    var $indexes;
+	/** @var integer Definition: var $locked = 0;*/
+    var $locked = 0;
+	/** @var string Definition:     var $module;*/
+    var $module;
+	/** @var integer Definition:     var $translatable = 0;*/
+    var $translatable = 0;
+
+    /*
+     * properties for schema=>settings array
+     */
+
+	/** @var string Definition:     var $jittype = 'na';*/
+    var $jittype = 'na';
+	/** @var string Definition: var $handler;*/
+    var $handler;
+	/** @var string Definition:     var $target_type;*/
+    var $target_type;
+	/** @var array Definition:     var $allowed_values; //array*/
+    var $allowed_values; //array
+	/** @var string Definition: var $allowed_values_function;*/
+    var $allowed_values_function;
+	/** @var integer Definition:     var $default_image = 0;*/
+    var $default_image = 0;
+	/** @var string Definition:     var $uri_scheme = 'public';*/
+    var $uri_scheme = 'public';
+	/** @var integer Definition:     var $display_default = 0;*/
+    var $display_default = 0;
+	/** @var integer Definition:     var $display_field = 1;*/
+    var $display_field = 1;
+	/** @var string Definition:     var $decimal_separator = '.';*/
+    var $decimal_separator = '.';
+	/** @var integer Definition:     var $precision = 10;*/
+    var $precision = 10;
+	/** @var integer Definition:     var $scale = 4;*/
+    var $scale = 4;
+	/** @var string Definition:     var $options_list_limit = '';*/
+    var $options_list_limit = '';
+	/** @var integer Definition:     var $max_length = 255;*/
+    var $max_length = 255;
+	/** @var integer Definition:     var $enable_tokens = 1;*/
+    var $enable_tokens = 1;
+	/** @var string Definition:     var $link_title = 'optional';*/
+    var $link_title = 'optional';
+	/** @var integer Definition:     var $link_title_maxlength = 128;*/
+    var $link_title_maxlength = 128;
+	/** @var string Definition:     var $link_title_value = '';*/
+    var $link_title_value = '';
+	/** @var integer Definition:     var $link_url = 0;*/
+    var $link_url = 0;
+
+
+    /*
+     * properties for settings=>handler_settings array (entityreference)
+     */
+
+	/** @var array Definition:     var $behaviors; //array*/
+    var $behaviors; //array
+	/** @var array Definition: var $handler_sort; //array*/
+    var $handler_sort; //array
+	/** @var array Definition:     var $target_bundles; //array*/
+    var $target_bundles; //array
+
+
+    /*
+     * properties for settings=>attributes (link_field)
+     */
+
+	/** @var string Definition: var $link_class;*/
+    var $link_class;
+	/** @var string Definition: var $link_rel;*/
+    var $link_rel;
+	/** @var string Definition:     var $link_target = 'default';*/
+    var $link_target = 'default';
+
+    /*
+     * properties for settings=>display (link_field)
+     */
+
+	/** @var integer Definition:     var $url_cutoff = 80;*/
+    var $url_cutoff = 80;
+
+
+
+    /*
+     * Methods
+     */
+
+    function __construct($name, $type){
+
+        $this->name = $name;
+        $this->type = $type;
+
+        $this->entity_types = array();
+        $this->indexes = array();
+
+
+        //module is substring of $type
+        if(substr($type,0,4) == 'text'){
+            $this->module = 'text';
+            $this->indexes = array('format' => array(0 => 'format',),);
+        }
+
+        if(substr($type,0,6) == 'number'){
+            $this->module = 'number';
+        }
+
+        if(substr($type,0,4) == 'list'){
+            $this->module = 'list';
+            $this->allowed_values = array();
+            $this->indexes =  array('value' => array(0 => 'value',),);
+        }
+
+        if(substr($type,0,4) == 'link'){
+            $this->module = 'link';
+
+        }
+
+        if(substr($type,0,8) == 'taxonomy'){
+            $this->module = 'taxonomy';
+            $this->allowed_values = array();
+
+        }
+
+
+        //module === type
+        $this->module = $type;
+
+        if($type == 'commerce_price'){
+           $this->indexes = array('currency_price' => array(0 => 'amount',1 => 'currency_code',),);
+           $this->entity_types = array(0 => 'commerce_product',);
+        }
+
+        if($type == 'image'){
+            $this->indexes = array('fid' => array(0 => 'fid',),);
+        }
+
+        if($type == 'file'){
+            $this->module = 'file';
+        }
+
+        if($type == 'entityreference'){
+            $this->handler = 'base';
+            $this->behaviors =  array('views-select-list' => array('status' => 0,));
+            $this->handler_sort = array('type'=>'none',);
+            $this->target_bundles = array();
+            $this->indexes = array('target_id' => array(0 => 'target_id',));
+        }
+
+        if($type == 'commerce_product_reference'){
+            $this->indexes = array('product_id' => array(0 => 'product_id',),);
+        }
+    }
+
+    function to_array(){
+        return array(
+                'active' => $this->active,
+                'field_name' => $this->name,
+                'type' => $this->type,
+                'cardinality' => $this->cardinality,
+                'deleted' => $this->deleted,
+                'entity_types' => $this->entity_types,
+                'indexes' => $this->indexes,
+                'locked' => $this->locked,
+                'module' => $this->module,
+                'settings' => $this->get_schema_settings(),
+                'translatable' => $this->translatable,
+              );
+    }
+
+
+    private function get_schema_settings(){
+        $settings = array('jit_type' =>$this->jittype);
+
+        switch ($this->type) {
+            case 'entityreference':
+                $settings['handler'] = $this->handler;
+                $settings['handler_settings'] = $this->get_handler_settings();
+                $settings['target_type'] = $this->target_type;
+                break;
+            case 'list_text':
+                $settings['allowed_values'] = $this->allowed_values;
+                $settings['allowed_values_function'] = $this->allowed_values_function;
+                break;
+            case 'list_float':
+                $settings['allowed_values'] = $this->allowed_values;
+                $settings['allowed_values_function'] = $this->allowed_values_function;
+                break;
+            case 'list_integer':
+                $settings['allowed_values'] = $this->allowed_values;
+                $settings['allowed_values_function'] = $this->allowed_values_function;
+                break;
+            case 'list_boolean':
+                $settings['allowed_values'] = $this->allowed_values;
+                $settings['allowed_values_function'] = $this->allowed_values_function;
+                break;
+            case 'image':
+                $settings['default_image'] = $this->default_image;
+                $settings['uri_scheme'] = $this->uri_scheme;
+                break;
+            case 'file':
+                $settings['display_default'] = $this->display_default;
+                $settings['display_field'] = $this->display_field;
+                $settings['uri_scheme'] = $this->uri_scheme;
+                break;
+            case 'number_decimal':
+                $settings['decimal_separator'] = $this->decimal_separator;
+                $settings['precision'] = $this->precision;
+                $settings['scale'] = $this->scale;
+                break;
+            case 'commerce_product_reference':
+                $settings['options_list_limit'] = $this->options_list_limit;
+                break;
+            case 'text':
+                $settings['max_length'] = $this->max_length;
+                break;
+            case 'link_field':
+                $settings['attributes'] = $this->get_link_attributes();
+                $settings['display'] = $this->get_link_display();
+                $settings['enable_tokens'] = $this->enable_tokens;
+                $settings['title'] = $this->link_title;
+                $settings['title_maxlength'] = $this->link_title_maxlength;
+                $settings['title_value'] = $this->link_title_value;
+                $settings['url'] = $this->link_url;
+                break;
+            case 'taxonomy_term_reference':
+                $settings['allowed_values'] = $this->allowed_values;
+                break;
+            default:
+                break;
+        }
+
+        return $settings;
+    }
+
+
+    private function get_handler_settings(){
+        return array(
+          'behaviors' => $this->behaviors,
+          'sort' => $this->handler_sort,
+          'target_bundles' => $this->target_bundles,
+        );
+    }
+
+    private function get_link_attributes(){
+        return array(
+          'class' => $this->link_class,
+          'rel' => $this->link_rel,
+          'target' => $this->link_target,
+        );
+    }
+
+    private function get_link_display(){
+        return array(
+          'url_cutoff' => $this->url_cutoff,
+        );
+    }
+
+    public function add_target_bundle($bundle){
+        $this->target_bundles[$bundle] = $bundle;
+    }
+
+
+}

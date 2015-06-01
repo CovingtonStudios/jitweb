@@ -1,0 +1,17 @@
+name = Settings
+description = This module builds the JIT Settings database tables and GUIs to alter them.
+core = 7.x
+package = JIT Components
+
+dependencies[] = jit_views
+dependencies[] = jit_web
+
+
+
+
+
+files[] = jit_settings.module
+files[] = jit_settings.install
+files[] = includes/field-settings.inc
+field[] = includes/section-settings.inc
+configure = admin/settings/jit-settings

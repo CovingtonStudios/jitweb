@@ -1,0 +1,233 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ * Description of JITWidget
+ *
+ * @author TECH
+ */
+class JITWidget {
+    /*
+     * widget settings
+     */
+	 /** @var integer Definition:     var $active = 1;*/
+    var $active = 1;
+	/** @var string Definition:     var $module;*/
+    var $module;
+	/** @var string Definition:     var $type;*/
+    var $type;
+	/** @var integer Definition:     var $weight =0;*/
+    var $weight =0;
+
+
+    /*
+     * image_image and file_generic settings
+     */
+	 /** @var integer Definition:     var $image_insert = 0;*/
+    var $image_insert = 0;
+	/** @var integer Definition:     var $image_insert_absolute = 0;*/
+    var $image_insert_absolute = 0;
+	/** @var string Definition:     var $image_insert_class = '';*/
+    var $image_insert_class = '';
+	/** @var string Definition:     var $image_insert_default = 'auto';*/
+    var $image_insert_default = 'auto';
+	/** @var array Definition:     var $image_insert_styles; NOTE: Use method <b>add_insert_style</b> to set this*/
+    var $image_insert_styles; //array
+	/** @var string Definition:     var $image_insert_width = '';*/
+    var $image_insert_width = '';
+	/** @var string Definition:     var $image_preview_image_style = 'thumbnail';*/
+    var $image_preview_image_style = 'thumbnail';
+
+	//just image_image:
+	/** @var string Definition:     var $image_progress_indicator = 'throbber';*/
+    var $image_progress_indicator = 'throbber';
+
+    /*
+     * text_textarea_with_summary settings
+     */
+	 /** @var integer Definition: var $rows=20;*/
+    var $rows=20;
+	/** @var integer Definition:     var $summary_rows=5;*/
+    var $summary_rows=5;
+
+    /*
+     * entityreference_autocomplete
+     */
+	 /** @var string Definition:     var $match_operator = 'CONTAINS';*/
+    var $match_operator = 'CONTAINS';
+	/** @var string Definition:     var $path = '';*/
+    var $path = '';
+	/** @var integer Definition:     var $size = 60;*/
+    var $size = 60;
+
+    /*
+     * commerce_price settings
+     */
+
+	 /** @var string Definition:     var $currency_code = 'default';*/
+    var $currency_code = 'default';
+
+
+    /*
+     * autocomplete_deluxe_taxonomy settings
+     */
+	 /** @var string Definition:     var $autocomplete_deluxe_path = 'autocomplete_deluxe/taxonomy';*/
+    var $autocomplete_deluxe_path = 'autocomplete_deluxe/taxonomy';
+	/** @var string Definition:     var $delimiter = '';*/
+    var $delimiter = '';
+	/** @var integer Definition:     var $limit = 10;*/
+    var $limit = 10;
+	/** @var integer Definition:     var $min_length = 0;*/
+    var $min_length = 0;
+	/** @var string Definition:     var $not_found_message = 'The term \'@term\' will be added.';*/
+    var $not_found_message = 'The term \'@term\' will be added.';
+
+    /*
+     * options_onoff settings
+     */
+        /** @var boolean Definition:    var $options_onff_display_label = FALSE; */
+    var $options_onff_display_label = FALSE;
+
+
+    /*
+     * Methods
+     */
+
+    function __construct($type){
+        $this->type = $type;
+
+        //module is substring of $type
+        if(substr($type,0,4) == 'text'){
+            $this->module = 'text';
+
+        }
+
+        if(substr($type,0,6) == 'number'){
+            $this->module = 'number';
+        }
+
+        if(substr($type,0,4) == 'list'){
+            $this->module = 'list';
+
+        }
+
+        if(substr($type,0,4) == 'link'){
+            $this->module = 'link';
+
+        }
+
+        if(substr($type,0,5) == 'image'){
+            $this->module = 'image';
+
+        }
+
+        if(substr($type,0,4) == 'file'){
+            $this->module = 'file';
+
+        }
+
+        if(substr($type,0,7) == 'options'){
+            $this->module = 'options';
+
+        }
+
+        if(substr($type,0,9) == 'viewfield'){
+            $this->module = 'viewfield';
+
+        }
+
+        if(substr($type,0,14) == 'commerce_price'){
+            $this->module = 'commerce_price';
+
+        }
+
+        if(substr($type,0,19) == 'autocomplete_deluxe'){
+            $this->module = 'autocomplete_deluxe';
+        }
+
+        if($type == 'entityreference_autocomplete'){
+            $this->module = 'entityreference';
+
+        }
+
+        $this->image_insert_styles = array();
+
+
+    }
+
+    function to_array(){
+        return array(
+            'active' => $this->active,
+            'module' => $this->module,
+            'settings' => $this->get_settings(),
+            'type' => $this->type,
+            'weight' => $this->weight,
+        );
+    }
+
+
+    function get_settings(){
+        $settings = array();
+
+        switch ($this->type) {
+            case 'text_textarea_with_summary':
+                $settings['rows'] = $this->rows;
+                $settings['summary_rows'] = $this->summary_rows;
+                break;
+            case 'image_image' :
+                $settings['insert'] = $this->image_insert;
+                $settings['insert_absolute'] = $this->image_insert_absolute;
+                $settings['insert_class'] = $this->image_insert_class;
+                $settings['insert_default'] = $this->image_insert_default;
+                $settings['insert_styles'] = $this->image_insert_styles;
+                $settings['insert_width'] = $this->image_insert_width;
+                $settings['progress_indicator'] = $this->image_progress_indicator;
+                $settings['preview_image_style'] = $this->image_preview_image_style;
+                break;
+            case 'file_generic' :
+                $settings['insert'] = $this->image_insert;
+                $settings['insert_absolute'] = $this->image_insert_absolute;
+                $settings['insert_class'] = $this->image_insert_class;
+                $settings['insert_default'] = $this->image_insert_default;
+                $settings['insert_styles'] = $this->image_insert_styles;
+                $settings['insert_width'] = $this->image_insert_width;
+                $settings['progress_indicator'] = $this->image_progress_indicator;
+                break;
+            case 'entityreference_autocomplete':
+                $settings['match_operator'] = $this->match_operator;
+                $settings['path'] = $this->path;
+                $settings['size'] = $this->size;
+                break;
+            case 'text_textfield':
+                $settings['size'] = $this->size;
+                break;
+            case 'commerce_price_full':
+                $settings['currency_code'] = $this->currency_code;
+                break;
+            case 'autocomplete_delete_taxonomy':
+                $settings['autocomplete_deluxe_path'] = $this->autocomplete_deluxe_path;
+                $settings['delimiter'] = $this->delimiter;
+                $settings['limit'] = $this->limit;
+                $settings['min_length'] = $this->min_length;
+                $settings['not_found_message'] = $this->not_found_message;
+                $settings['size'] = $this->size;
+                break;
+            case 'options_onoff':
+                $settings['display_label'] = $this->options_onff_display_label;
+            default:
+                break;
+        }
+
+        return $settings;
+    }
+
+    function add_insert_style($style){
+        $this->image_insert_styles[$style] = $style;
+    }
+}

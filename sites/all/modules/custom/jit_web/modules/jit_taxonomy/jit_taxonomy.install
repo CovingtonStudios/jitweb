@@ -1,0 +1,133 @@
+<?php
+module_load_include('inc', 'jit_web', 'util/utilities');
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Implements hook_install();
+ */
+function jit_taxonomy_install() {
+  jit_web_load_classes();
+  jit_taxonomy_create_product_vocab();
+  jit_taxonomy_add_terms_to_vocab('products');
+}
+
+function jit_taxonomy_create_product_vocab(){
+  //create new product vocab
+  $term = new stdClass();
+  $term->name = t('Products');
+  $term->machine_name = 'products';
+  $term->description = t('This is the Vocabulary that will control the Products Menu');
+  $term->heirarchy = 1;
+  $term->module = 'jit_taxonomy';
+  $term->weight = 1;
+  taxonomy_vocabulary_save($term);
+
+  //create boolean field for vocab
+    $field = new JITField('field_show_in_products_menu', 'list_boolean', 'options_onoff');
+    $field->schema->allowed_values = array(0=>'Yes',1=>'No');
+    $field->instance->label = 'Show In Products Menu';
+    $field->instance->entity_type = 'taxonomy_term';
+    $field->instance->bundle = 'products';
+    $field->instance->widget->weight = 50;
+    $field->instance->widget->options_onff_display_label = TRUE;
+    $field->instance->add_display_array('default','list_default' , 50, 'above', 'list');
+
+    if(!jit_web_field_exists($field->name)){
+        field_create_field($field->get_schema_array());
+    }
+
+    $instance = $field->get_instance_array();
+
+    if(!jit_web_instance_exists($instance,'taxonomy_term')){
+        field_create_instance($instance);
+    }
+
+}
+
+function jit_taxonomy_add_terms_to_vocab($vocab_name){
+
+    $vocab = taxonomy_vocabulary_machine_name_load($vocab_name);
+
+    foreach(jit_taxonomy_get_terms_for_vocab($vocab) as $term){
+        taxonomy_term_save($term);
+    }
+
+}
+
+function jit_taxonomy_get_terms_for_vocab($vocab) {
+    $terms = array();
+    $weight = -5;
+
+    $terms['plastic'] = (object) array(
+      'name'=>'Plastic',
+      'description'=>'',
+      'vid' => $vocab->vid,
+      'vocabulary_machine_name' => $vocab->machine_name,
+      'field_show_in_products_menu' => jit_web_get_field_value_array(1),
+      'weight' => $weight++,
+      );
+
+    $terms['aluminium'] = (object) array(
+      'name'=>'Aluminium',
+      'description'=>'',
+      'vid' => $vocab->vid,
+      'vocabulary_machine_name' => $vocab->machine_name,
+      'field_show_in_products_menu' => jit_web_get_field_value_array(1),
+      'weight' => $weight++,
+      );
+
+    $terms['steel'] = (object) array(
+      'name'=>'Steel',
+      'description'=>'',
+      'vid' => $vocab->vid,
+      'vocabulary_machine_name' => $vocab->machine_name,
+      'field_show_in_products_menu' => jit_web_get_field_value_array(1),
+      'weight' => $weight++,
+      );
+
+    $terms['accessories'] = (object) array(
+      'name'=>'Accessories',
+      'description'=>'',
+      'vid' => $vocab->vid,
+      'vocabulary_machine_name' => $vocab->machine_name,
+      'field_show_in_products_menu' => jit_web_get_field_value_array(1),
+      'weight' => $weight++,
+      );
+
+
+    $terms['not_in_menu'] = (object) array(
+      'name'=>'Not In Menu',
+      'description'=>'This is the term that\'s children will be auto populated and NOT shown in the products menu by the JIT Taxonomy Module.  DO NOT DELETE',
+      'vid' => $vocab->vid,
+      'vocabulary_machine_name' => $vocab->machine_name,
+      'field_show_in_products_menu' => jit_web_get_field_value_array(0),
+      'weight' => $weight++,
+      );
+
+    return $terms;
+}
+
+
+/**
+ * Implements hook_uninstall();
+ */
+function jit_taxonomy_uninstall() {
+
+  $vocab = taxonomy_vocabulary_machine_name_load('products');
+  if($vocab){
+    taxonomy_vocabulary_delete($vocab->vid);
+  }
+
+  //remove all terms associated with Products.
+  foreach(taxonomy_get_tree($vocab->vid) as $term){
+      taxonomy_term_delete($term->tid);
+  }
+
+
+
+  drupal_cron_run();
+}

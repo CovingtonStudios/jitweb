@@ -1,0 +1,376 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ * Description of JITFieldInstance
+ *
+ * @author TECH
+ */
+class JITFieldInstance {
+        /*
+     * instance fields
+     */
+
+	 /** @var string Definition: 	var $name;*/
+	var $name;
+	/** @var string Definition:     var $type;*/
+    var $type;
+	/** @var string Definition:     var $bundle;*/
+    var $bundle;
+	/** @var string Definition: 	var $default_value = NULL;*/
+	var $default_value = NULL;
+	/** @var integer Definition:     var $deleted = 0;*/
+    var $deleted = 0;
+	/** @var string Definition:     var $description = '';*/
+    var $description = '';
+	/** @var string Definition:     var $entity_type = 'node';*/
+    var $entity_type = 'node';
+	/** @var string Definition:     var $label;*/
+    var $label;
+	/** @var integer Definition:     var $required = 0;*/
+    var $required = 0;
+	/** @var integer Definition:     var $weight = 0;*/
+    var $weight = 0;
+	/** @var array Definition:     var $display_arrays;*/
+    var $display_arrays; //array
+	/** @var JITWidget Definition: var $widget;*/
+    var $widget; //JITWidget
+
+
+    /*
+     * properties for the instance=>settings fields
+     */
+
+	/** @var boolean Definition:     var $user_register_form = FALSE;*/
+    var $user_register_form = FALSE;
+	/** @var string Definition:     var $file_directory = '';*/
+    var $file_directory = '';
+	/** @var string Definition:     var $file_extensions = '';*/
+    var $file_extensions = '';
+	/** @var string Definition:     var $max_filesize = '';*/
+    var $max_filesize = '';
+	/** @var string Definition:     var $min = '';*/
+    var $min = '';
+	/** @var string Definition:     var $max = '';*/
+    var $max = '';
+
+    /*
+     * properties for the instance=>settings image fields
+     */
+	 /** @var integer Definition:     var $image_alt_field = 1;*/
+    var $image_alt_field = 1;
+	/** @var integer Definition:     var $image_default_image = 0;*/
+    var $image_default_image = 0;
+	/** @var integer Definition:     var $image_title_field = 1;*/
+    var $image_title_field = 1;
+
+    /*
+     * properties for the instance=>settings product reference
+     */
+
+	/** @var boolean Definition:     var $product_field_injection = TRUE;*/
+    var $product_field_injection = TRUE;
+	/** @var array Definition: var $product_referenceable_types; //array*/
+    var $product_referenceable_types; //array
+
+    /*
+     * properites for the instance=>settings text area
+     */
+
+	/** @var boolean Definition: var $textarea_display_summary = TRUE;*/
+    var $textarea_display_summary = TRUE;
+	/** @var integer Definition: var $textarea_text_processing = 1;*/
+    var $textarea_text_processing = 1;
+
+    /*
+     * properties for the instance=>settings file
+     */
+
+	/** @var integer Definition:     var $file_description_field = 0;*/
+    var $file_description_field = 0;
+
+
+    /*
+     * properties for entity reference type
+     */
+
+	 /** @var integer Definition: var $entityconnect_unload_add = 0;*/
+    var $entityconnect_unload_add = 0;
+	/** @var integer Definition:     var $entityconnect_unload_edit = 0;*/
+    var $entityconnect_unload_edit = 0;
+
+    /*
+     * properties for instance=>settings number
+     */
+
+	/** @var string Definition:     var $number_prefix = '';*/
+    var $number_prefix = '';
+	/** @var string Definition: var $number_suffix = '';*/
+    var $number_suffix = '';
+
+    /*
+     * properties for instance=>settings link
+     */
+
+	/** @var integer Definition: var $link_absolute_url = 1;*/
+    var $link_absolute_url = 1;
+	/** @var string Definition: var $link_display_url_cutoff;*/
+    var $link_display_url_cutoff;
+	/** @var string Definition: var $link_attributes_class = '';*/
+    var $link_attributes_class = '';
+	/** @var integer Definition: var $link_attributes_configurable_title = 0;*/
+	var $link_attributes_configurable_title = 0;
+	/** @var string Definition: var $link_attributes_rel = '';*/
+    var $link_attributes_rel = '';
+	/** @var string Definition:     var $link_attributes_target = '_blank';*/
+    var $link_attributes_target = '_blank';
+	/** @var string Definition:     var $link_attributes_title = '';*/
+    var $link_attributes_title = '';
+	/** @var integer Definition:     var $link_enable_tokens = 1;*/
+    var $link_enable_tokens = 1;
+	/** @var string Definition:     var $link_rel_remove = 'default';*/
+    var $link_rel_remove = 'default';
+	/** @var string Definition:     var $link_title = 'none';*/
+    var $link_title = 'none';
+	/** @var boolean Definition:     var $link_title_label_use_field_label = FALSE;*/
+    var $link_title_label_use_field_label = FALSE;
+    var $link_title_value = '';
+	/** @var string Definition:     var $link_url = 'optional';*/
+    var $link_url = 'optional';
+	/** @var integer Definition:     var $link_validate_url = 0;*/
+    var $link_validate_url = 0;
+
+    /*
+     * properties for instance=>settings viewfield
+     */
+
+	/** @var array Definition:     var $viewfield_allowed_views; //array*/
+    var $viewfield_allowed_views; //array
+	/** @var integer Definition: var $viewfield_force_default = 0;*/
+    var $viewfield_force_default = 0;
+
+    /*
+     * commerce cart settings
+     */
+
+	/** @var integer Definition:     var $commerce_attribute_field = 0;*/
+    var $commerce_attribute_field = 0;
+	/** @var string Definition: var $commerce_attribute_widget = 'select';*/
+    var $commerce_attribute_widget = 'select';
+	/** @var string Definition:     var $commerce_attribute_title =  '';*/
+    var $commerce_attribute_title =  '';
+
+    /*
+     * properties for settings=>FileField
+     */
+    /** @var integer Definition : var $filefield_paths_enabled = 0;*/
+    var $filefield_paths_enabled = 0;
+    /** @var integer Definition : var $active_updating = 0;*/
+    var $active_updating = 0;
+    /** @var integer Definition : var $file_name_pathauto = 0;*/
+    var $file_name_pathauto = 0;
+    /** @var integer Definition : var $file_name_transliterate = 0;*/
+    var $file_name_transliterate = 0;
+    /** @var string Definition : var $file_name_value = '[file:ffp-name-only-original].[file:ffp-extension-original]';*/
+    var $file_name_value = '[file:ffp-name-only-original].[file:ffp-extension-original]';
+    /** @var integer Definition : var $file_path_pathauto = 1;*/
+    var $file_path_pathauto = 1;
+    /** @var integer Definition : var $file_path_transliterate = 0;*/
+    var $file_path_transliterate = 0;
+    /** @var string Definition : var $file_path_value;*/
+    var $file_path_value;
+    /** @var integer Definition : var $retroactive_update = 0;*/
+    var $retroactive_update = 0;
+
+    /*
+     * Methods
+     */
+
+    function __construct($name, $type, $widget_type){
+        $this->name = $name;
+        $this->type = $type;
+        $this->widget = new JITWidget($widget_type);
+
+        //setup array vars
+        $this->display_arrays = array();
+        $this->product_referenceable_types = array();
+        $this->viewfield_allowed_views = array();
+
+    }
+
+    public function to_array(){
+        $output = array(
+            'bundle' => $this->bundle,
+            'default_value' => $this->default_value,
+            'deleted' => $this->deleted,
+            'description' => $this->description,
+            'display' => $this->get_display_arrays(),
+            'entity_type' => $this->entity_type,
+            'field_name' => $this->name,
+            'label' => $this->label,
+            'required' => $this->required,
+            'settings' => $this->get_instance_settings(),
+            'widget' => $this->widget->to_array(),
+        );
+
+        if($this->type == 'entityreference'){
+            $output['entityconnect_unload_add'] = 0;
+            $output['entityconnect_unload_edit'] = 0;
+        }
+
+        if($this->entity_type = 'commerce_product'){
+            $output['commerce_cart_settings'] = $this->get_commerce_cart_settings();
+        }
+
+        return $output;
+    }
+
+    private function get_commerce_cart_settings(){
+        return array(
+          'attribute_field' => $this->commerce_attribute_field,
+          'attribute_widget' => $this->commerce_attribute_widget,
+          'attribute_title' => $this->commerce_attribute_title,
+        );
+    }
+
+    private function get_instance_settings(){
+        $settings = array('user_register_form' => $this->user_register_form);
+
+        switch ($this->type) {
+            case 'image':
+                $settings['alt_field'] = $this->image_alt_field;
+                $settings['default_image'] = $this->image_default_image;
+                $settings['file_directory'] = $this->file_directory;
+                $settings['file_extensions'] = $this->file_extensions;
+                $settings['max_filesize'] = $this->max_filesize;
+                $settings['max_resolution'] = $this->max;
+                $settings['min_resolution'] = $this->min;
+                $settings['title_field'] = $this->image_title_field;
+                break;
+            case 'file':
+                $settings['file_directory'] = $this->file_directory;
+                $settings['file_extensions'] = $this->file_extensions;
+                $settings['max_filesize'] = $this->max_filesize;
+                $settings['description_field'] = $this->file_description_field;
+                break;
+            case 'number_decimal':
+            case 'number_integer':
+                $settings['max'] = $this->max;
+                $settings['min'] = $this->min;
+                $settings['prefix'] = $this->number_prefix;
+                $settings['suffix'] = $this->number_suffix;
+                break;
+            case 'commerce_product_reference':
+                $settings['field_injection'] = $this->product_field_injection;
+                $settings['referenceable_types'] = $this->product_referenceable_types;
+                break;
+            case 'text':
+                $settings['display_summary'] = $this->textarea_display_summary;
+                $settings['text_processing'] = $this->textarea_text_processing;
+                break;
+            case 'link_field':
+                $settings['absolute_url'] = $this->link_absolute_url;
+                $settings['attributes'] = $this->get_link_attributes();
+                $settings['display'] = $this->get_link_display();
+                $settings['enable_tokens'] = $this->link_enable_tokens;
+                $settings['rel_remove'] = $this->link_rel_remove;
+                $settings['title'] = $this->link_title;
+                $settings['title_label_use_field_label'] = $this->link_title_label_use_field_label;
+                $settings['title_maxlength'] = $this->max;
+                $settings['title_value'] = $this->link_title_value;
+                $settings['url'] = $this->link_url;
+                $settings['validate_url'] = $this->link_validate_url;
+                break;
+            case 'viewfield':
+                $settings['allowed_views'] = $this->viewfield_allowed_views;
+                $settings['force_default'] = $this->viewfield_force_default;
+                break;
+            default:
+
+                break;
+        }
+
+        if($this->filefield_paths_enabled == 1){
+            $settings['filefield_paths'] = array(
+              'active_updating' => $this->active_updating,
+              'file_name' => $this->get_filefield_filename_array(),
+              'file_path' => $this->get_filefield_filepath_array(),
+              'retroactive_update' => $this->retroactive_update,
+            );
+        }
+
+        return $settings;
+    }
+
+    private function get_filefield_filepath_array(){
+        return array(
+          'options' => array(
+            'pathauto' => $this->file_path_pathauto,
+            'transliterate' => $this->file_path_transliterate,
+            ),
+          'value' => $this->file_path_value,
+          );
+    }
+    private function get_filefield_filename_array(){
+        return array(
+          'options' => array(
+            'pathauto' => $this->file_name_pathauto,
+            'transliterate' => $this->file_name_transliterate,
+            ),
+          'value' => $this->file_name_value,
+          );
+    }
+
+    public function add_display_array($viewmode, $type, $weight =0, $label='hidden', $module = '', $settings = array()){
+
+        $this->display_arrays[$viewmode] = array(
+         'label' => $label,
+         'settings' => $settings,
+         'type' => $type,
+         'weight' => $weight,
+       );
+
+        if(!empty($module)){
+           $this->display_arrays[$viewmode]['module'] = $module;
+       }
+   }
+
+   public function get_display_arrays(){
+       return $this->display_arrays;
+   }
+
+   public function add_referenceable_type($type){
+       $this->product_referenceable_types[$type] = $type;
+   }
+
+   public function add_filefield_path($file_path_value){
+        $this->filefield_paths_enabled = 1;
+        $this->file_path_value = $file_path_value;
+    }
+
+   public function add_allowed_view($view){
+       $this->viewfield_allowed_views[$view] = $view;
+   }
+
+   private function get_link_attributes(){
+        return array(
+          'class' => $this->link_attributes_class,
+          'rel' => $this->link_attributes_rel,
+          'target' => $this->link_attributes_target,
+          'configurable_title' => $this->link_attributes_configurable_title,
+          'title' => $this->link_attributes_title,
+        );
+    }
+
+    private function get_link_display(){
+        return array(
+          'url_cutoff' => $this->link_display_url_cutoff,
+        );
+    }
+}

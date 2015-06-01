@@ -1,0 +1,108 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+$view = new view();
+$view->name = 'related_products';
+$view->description = '';
+$view->tag = 'default';
+$view->base_table = 'commerce_product';
+$view->human_name = 'Related Products';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['title'] = 'Related Products';
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['group_by'] = TRUE;
+$handler->display->display_options['access']['type'] = 'role';
+$handler->display->display_options['access']['role'] = array(
+  3 => '3',
+  1 => '1',
+  2 => '2',
+);
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['query']['options']['disable_sql_rewrite'] = TRUE;
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['pager']['type'] = 'none';
+$handler->display->display_options['style_plugin'] = 'views_bootstrap_multicarousel_plugin_style';
+$handler->display->display_options['style_options']['interval'] = 'false';
+$handler->display->display_options['style_options']['navigation'] = 1;
+$handler->display->display_options['style_options']['indicators'] = 1;
+$handler->display->display_options['style_options']['pause'] = 0;
+$handler->display->display_options['row_plugin'] = 'views_bootstrap_multicarousel_plugin_rows';
+$handler->display->display_options['row_options']['image'] = 'field_product_image_1';
+$handler->display->display_options['row_options']['description'] = 'title_1';
+/* Relationship: Commerce Product: Referencing Node */
+$handler->display->display_options['relationships']['field_product_reference']['id'] = 'field_product_reference';
+$handler->display->display_options['relationships']['field_product_reference']['table'] = 'commerce_product';
+$handler->display->display_options['relationships']['field_product_reference']['field'] = 'field_product_reference';
+$handler->display->display_options['relationships']['field_product_reference']['required'] = TRUE;
+/* Field: Content: Product Image */
+$handler->display->display_options['fields']['field_product_image_1']['id'] = 'field_product_image_1';
+$handler->display->display_options['fields']['field_product_image_1']['table'] = 'field_data_field_product_image';
+$handler->display->display_options['fields']['field_product_image_1']['field'] = 'field_product_image';
+$handler->display->display_options['fields']['field_product_image_1']['relationship'] = 'field_product_reference';
+$handler->display->display_options['fields']['field_product_image_1']['label'] = '';
+$handler->display->display_options['fields']['field_product_image_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_product_image_1']['click_sort_column'] = 'fid';
+$handler->display->display_options['fields']['field_product_image_1']['settings'] = array(
+  'image_style' => 'thumbnail',
+  'image_link' => '',
+);
+$handler->display->display_options['fields']['field_product_image_1']['group_column'] = 'entity_id';
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+$handler->display->display_options['fields']['title_1']['table'] = 'node';
+$handler->display->display_options['fields']['title_1']['field'] = 'title';
+$handler->display->display_options['fields']['title_1']['relationship'] = 'field_product_reference';
+$handler->display->display_options['fields']['title_1']['label'] = '';
+$handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+/* Contextual filter: Commerce Product: For Use With (field_for_use_with) */
+$handler->display->display_options['arguments']['field_for_use_with_tid']['id'] = 'field_for_use_with_tid';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['table'] = 'field_data_field_for_use_with';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['field'] = 'field_for_use_with_tid';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['default_action'] = 'not found';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['default_argument_type'] = 'php';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['default_argument_options']['code'] = '//Get the node entity for the current page
+$node = menu_get_object();
+if($node->type == \'widget_display\') {
+  //Gets product entity from product display node
+  $nodeproduct = entity_metadata_wrapper(\'node\', $node)->field_widget_product_reference->value();
+  //Gets taxonomy ID from product entity
+  $group = entity_metadata_wrapper(\'commerce_product\',   $nodeproduct)->field_product_group->value()->tid;
+  return $group;
+}';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['summary_options']['items_per_page'] = '25';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['specify_validation'] = TRUE;
+$handler->display->display_options['arguments']['field_for_use_with_tid']['validate']['type'] = 'taxonomy_term';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['validate_options']['vocabularies'] = array(
+  'products' => 'products',
+);
+$handler->display->display_options['arguments']['field_for_use_with_tid']['validate_options']['type'] = 'convert';
+$handler->display->display_options['arguments']['field_for_use_with_tid']['validate_options']['transform'] = TRUE;
+/* Filter criterion: Commerce Product: Type */
+$handler->display->display_options['filters']['type']['id'] = 'type';
+$handler->display->display_options['filters']['type']['table'] = 'commerce_product';
+$handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['value'] = array(
+  'accessories' => 'accessories',
+  'surface_mount_feet' => 'surface_mount_feet',
+);
+/* Filter criterion: Commerce Product: Status */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'commerce_product';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = '1';
+
+/* Display: Block */
+$handler = $view->new_display('block', 'Block', 'block');
