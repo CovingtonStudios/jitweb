@@ -1,10 +1,11 @@
 name = Settings
-description = This module builds the JIT Settings database tables and GUIs to alter them.
+description = This module builds the Menus, default JIT Settings, and GUIs to alter them.
 core = 7.x
 package = JIT Components
 
-dependencies[] = jit_views
+
 dependencies[] = jit_web
+dependencies[] = jit_views
 
 
 

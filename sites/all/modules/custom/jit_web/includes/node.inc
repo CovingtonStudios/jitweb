@@ -67,7 +67,7 @@ function jit_web_node_info() {
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
-      
+
     ),
     'splash_section' => array(
       'name' => t('Splash Section'),
@@ -92,6 +92,17 @@ function jit_web_node_info() {
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
+    ),
+    'policies' => array(
+      'name' => t('Policies'),
+      'base' => 'jit_web',
+      'description' => t('This content type is for JIT\'s Policies.  '),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+      'addtional_settings' => array(
+        
+      ),
     ),
   );
   drupal_alter('node_info', $items);

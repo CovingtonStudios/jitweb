@@ -144,9 +144,9 @@ $handler->display->display_options['fields']['field_company_logo']['settings'] =
   'image_link' => '',
 );
 $handler->display->display_options['path'] = 'references/partnership-links';
-$handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Partnership Links';
-$handler->display->display_options['menu']['name'] = 'main-menu';
+//$handler->display->display_options['menu']['type'] = 'normal';
+//$handler->display->display_options['menu']['title'] = 'Partnership Links';
+//$handler->display->display_options['menu']['name'] = 'main-menu';
 
 /* Display: Block */
 $handler = $view->new_display('block', 'Block', 'block_1');

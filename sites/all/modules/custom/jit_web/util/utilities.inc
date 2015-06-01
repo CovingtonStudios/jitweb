@@ -10,6 +10,12 @@
  * Common Functions
  */
 
+function jit_web_delete_view($view_name){
+    $view = views_get_view($view_name);
+
+    $view->delete();
+}
+
 function jit_web_update_nodetype_variables($content_type){
         $type = $content_type->type;
     if(method_exists($content_type,'get_variable_settings_array')){

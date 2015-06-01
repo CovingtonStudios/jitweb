@@ -4,8 +4,10 @@ core = 7.x
 package = JIT Components
 
 
+dependencies[] = jit_web
 dependencies[] = views
 dependencies[] = views_bootstrap
 dependencies[] = views_bootstrap_multicarousel
+
 
 files[] = jit_views.module

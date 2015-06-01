@@ -149,6 +149,26 @@ function jit_settings_menu(){
     'type' => MENU_CALLBACK,
    );
 
+  $items['products'] = array(
+    'title' => 'Products',
+    'description' => 'JIT Products Search Page',
+    'page callback'=>'drupal_get_form',
+    'page arguments' => array('jit_settings_products_form'),
+    'menu_name' => 'main-menu',
+    'weight' => 1,
+  );
+
+  $items['value-added'] = array(
+    'title' => 'Value Added Services',
+    'description' => 'JIT Value Added Services Page',
+    'page callback'=>'drupal_get_form',
+    'page arguments' => array('jit_settings_value_added_form'),
+    'menu_name' => 'main-menu',
+    'weight' => 2,
+  );
+
+
+
 
   return $items;
 }

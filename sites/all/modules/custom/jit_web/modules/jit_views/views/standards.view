@@ -100,12 +100,12 @@ $handler->display->display_options['fields']['field_standards_files']['type'] = 
 $handler->display->display_options['fields']['field_standards_files']['delta_offset'] = '0';
 $handler->display->display_options['fields']['field_standards_files']['separator'] = '<br>';
 $handler->display->display_options['path'] = 'references/standards';
-$handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Standards';
-$handler->display->display_options['menu']['weight'] = '0';
-$handler->display->display_options['menu']['name'] = 'main-menu';
-$handler->display->display_options['menu']['context'] = 0;
-$handler->display->display_options['menu']['context_only_inline'] = 0;
+//$handler->display->display_options['menu']['type'] = 'normal';
+//$handler->display->display_options['menu']['title'] = 'Standards';
+//$handler->display->display_options['menu']['weight'] = '0';
+//$handler->display->display_options['menu']['name'] = 'main-menu';
+//$handler->display->display_options['menu']['context'] = 0;
+//$handler->display->display_options['menu']['context_only_inline'] = 0;
 
 /* Display: Block */
 $handler = $view->new_display('block', 'Block', 'block');
